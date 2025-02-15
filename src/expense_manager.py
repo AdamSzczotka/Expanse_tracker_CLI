@@ -59,3 +59,16 @@ class ExpenseManager:
                 )
 
         return " ".join(warnings) if warnings else None
+
+    def set_budget(self, month: int, year: int, amount: float,
+                   category_limits: Optional[Dict[str, float]] = None) -> None:
+        budget = Budget(
+            month=month,
+            year=year,
+            amount=Decimal(str(amount)),
+            category_limits={
+                k: Decimal(str(v)) for k, v in (category_limits or {}).items()
+                }
+        )
+        budget.validate()
+        self.storage.set_budget(budget)
