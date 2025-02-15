@@ -47,3 +47,9 @@ class StorageHandler:
         except Exception as e:
             raise StorageError(f"Failed to load budgets: {str(e)}")
 
+    def _save_budgets(self, budgets: List[Dict]) -> None:
+        try:
+            with open(self.budget_path, 'w') as f:
+                json.dump(budgets, f, indent=2, default=str)
+        except Exception as e:
+            raise StorageError(f"Failed to save budgets: {str(e)}")
