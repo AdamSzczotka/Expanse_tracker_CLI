@@ -53,3 +53,17 @@ class StorageHandler:
                 json.dump(budgets, f, indent=2, default=str)
         except Exception as e:
             raise StorageError(f"Failed to save budgets: {str(e)}")
+
+    def add_expense(self, expense: Expense) -> int:
+        expenses = self._load_expenses()
+        new_id = max([exp['id'] for exp in expenses], default=0) + 1
+        expense_dict = {
+            'id': new_id,
+            'date': expense.date.isoformat(),
+            'description': expense.description,
+            'amount': str(expense.amount),
+            'category': expense.category
+        }
+        expenses.append(expense_dict)
+        self._save_expenses(expenses)
+        return new_id
