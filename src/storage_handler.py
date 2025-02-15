@@ -84,6 +84,15 @@ class StorageHandler:
         self._save_expenses(expenses)
         return new_id
 
+    def delete_expense(self, expense_id: int) -> bool:
+        expenses = self._load_expenses()
+        initial_length = len(expenses)
+        expenses = [exp for exp in expenses if exp['id'] != expense_id]
+        if len(expenses) == initial_length:
+            return False
+        self._save_expenses(expenses)
+        return True
+
     def set_budget(self, budget: Budget) -> None:
         budgets = self._load_budgets()
         budget_dict = {
