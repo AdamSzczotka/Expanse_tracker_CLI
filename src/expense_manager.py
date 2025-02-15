@@ -1,12 +1,12 @@
 from datetime import datetime
-from typing import List, Optional, Dict, Tuple
+from typing import Optional, Dict, Tuple
 from decimal import Decimal
 import csv
 from pathlib import Path
 from .expense import Expense
 from .budget import Budget
 from .storage_handler import StorageHandler
-from .exceptions import ValidationError, BudgetError, StorageError
+from .exceptions import StorageError
 
 
 class ExpenseManager:
