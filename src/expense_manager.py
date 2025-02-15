@@ -28,3 +28,34 @@ class ExpenseManager:
         warning = self._check_budget_warning(expense)
 
         return expense_id, warning
+
+    def _check_budget_warning(self, expense: Expense) -> Optional[str]:
+        current_month = expense.date.month
+        current_year = expense.date.year
+
+        budget = self.storage.get_budget(current_month, current_year)
+        if not budget:
+            return None
+
+        monthly_total = self.get_monthly_summary(current_month, current_year)
+        category_total = self.get_category_summary(expense.category,
+                                                   current_month, current_year)
+
+        warnings = []
+
+        # Check total budget
+        if monthly_total > budget.amount:
+            warnings.append(f"Total budget of "
+                            f"${float(budget.amount):.2f} exceeded!")
+
+        # Check category budget
+        if (budget.category_limits and
+                expense.category in budget.category_limits):
+            category_limit = budget.category_limits[expense.category]
+            if category_total > category_limit:
+                warnings.append(
+                    f"Category '{expense.category}' budget of "
+                    f"${float(category_limit):.2f}"
+                )
+
+        return " ".join(warnings) if warnings else None
