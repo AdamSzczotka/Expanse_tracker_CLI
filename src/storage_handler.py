@@ -3,7 +3,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Optional
 from decimal import Decimal
-from .expanse import Expanse
+from .expense import Expense
 from .budget import Budget
 from .exceptions import StorageError
 
@@ -25,3 +25,10 @@ class StorageHandler:
                 self._save_budgets([])
         except Exception as e:
             raise StorageError(f"Failed to initalize storage: {str(e)}")
+
+    def _load_expenses(self) -> List[Dict]:
+        try:
+            with open(self.storage_path, 'r') as f:
+                return json.load(f)
+        except Exception as e:
+            raise StorageError(f"Failed to load expenses: {str(e)}")
