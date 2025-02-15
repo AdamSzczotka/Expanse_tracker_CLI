@@ -72,3 +72,14 @@ class ExpenseManager:
         )
         budget.validate()
         self.storage.set_budget(budget)
+
+    def get_category_summary(self, category: str, month: Optional[int] = None,
+                             year: Optional[int] = None) -> Decimal:
+        expenses = self.get_all_expenses()
+        filtered_expenses = [
+            exp for exp in expenses
+            if exp.category == category
+            and (month is None or exp.date.month == month)
+            and (year is None or exp.date.year == year)
+        ]
+        return sum((exp.amount for exp in filtered_expenses), Decimal('0'))
