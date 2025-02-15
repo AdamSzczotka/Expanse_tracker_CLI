@@ -14,9 +14,9 @@ class Expense:
     id: Optional[int] = None
 
     def __post_init__(self):
-        self.validiate()
+        self.validate()
 
-    def validiate(self):
+    def validate(self):
         if not self.description or len(self.description.strip()) == 0:
             raise ValidationError("Description cannot be empty")
         if len(self.description) > 100:
