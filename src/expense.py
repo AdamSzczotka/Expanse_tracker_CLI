@@ -6,7 +6,7 @@ from .exceptions import ValidationError
 
 
 @dataclass
-class Expanse:
+class Expense:
     description: str
     amount: Decimal
     date: datetime
