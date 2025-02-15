@@ -67,3 +67,40 @@ class StorageHandler:
         expenses.append(expense_dict)
         self._save_expenses(expenses)
         return new_id
+
+    def set_budget(self, budget: Budget) -> None:
+        budgets = self._load_budgets()
+        budget_dict = {
+            'month': budget.month,
+            'year': budget.year,
+            'amount': str(budget.amount),
+            'category_limits': {
+                k: str(v) for k, v in (budget.category_limits or {}).items()
+            }
+        }
+
+        # Remove existing budget for month/year if exists
+        budget = [b for b in budgets if not (
+            b['month'] == budget.month and b['year'] == budget.year)]
+        budgets.append(budget_dict)
+        self._save_budgets(budgets)
+
+    def get_budget(self, month: int, year: int) -> Optional[Budget]:
+        budgets = self._load_budgets()
+        budget_dict = next(
+            (b for b in budgets if b['month'] == month and b['year'] == year),
+            None
+        )
+
+        if budget_dict:
+            return Budget(
+                month=budget_dict['month'],
+                year=budget_dict['year'],
+                amount=Decimal(budget_dict['amount']),
+                category_limits={
+                    k: Decimal(v) for k, v in
+                    budget_dict['category_limits'].items()
+                    }
+                if budget_dict.get('category_limits') else None
+            )
+        return None
