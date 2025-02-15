@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from typing import List, Dict, Optional
 from decimal import Decimal
+from datetime import datetime
 from .expense import Expense
 from .budget import Budget
 from .exceptions import StorageError
@@ -52,6 +53,22 @@ class StorageHandler:
                 json.dump(budgets, f, indent=2, default=str)
         except Exception as e:
             raise StorageError(f"Failed to save budgets: {str(e)}")
+
+    def get_all_expenses(self) -> List[Expense]:
+        try:
+            expenses_data = self._load_expenses()
+            return [
+                Expense(
+                    id=exp['id'],
+                    date=datetime.fromisoformat(exp['date']),
+                    description=exp['description'],
+                    amount=Decimal(exp['amount']),
+                    category=exp['category']
+                )
+                for exp in expenses_data
+            ]
+        except Exception as e:
+            raise StorageError(f"Failed to retrieve expenses: {str(e)}")
 
     def add_expense(self, expense: Expense) -> int:
         expenses = self._load_expenses()
