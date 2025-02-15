@@ -10,7 +10,7 @@ from .exceptions import StorageError
 
 class StorageHandler:
     def __init__(self,
-                 storage_path: str = 'data/expanses.json',
+                 storage_path: str = 'data/expenses.json',
                  budget_path: str = 'data/budgets.json'):
         self.storage_path = Path(storage_path)
         self.budget_path = Path(budget_path)
@@ -20,7 +20,7 @@ class StorageHandler:
         try:
             self.storage_path.parent.mkdir(parents=True, exist_ok=True)
             if not self.storage_path.exists():
-                self._save_expanses([])
+                self._save_expenses([])
             if not self.budget_path.exists():
                 self._save_budgets([])
         except Exception as e:
@@ -105,7 +105,7 @@ class StorageHandler:
         }
 
         # Remove existing budget for month/year if exists
-        budget = [b for b in budgets if not (
+        budgets = [b for b in budgets if not (
             b['month'] == budget.month and b['year'] == budget.year)]
         budgets.append(budget_dict)
         self._save_budgets(budgets)
