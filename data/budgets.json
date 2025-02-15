@@ -1,0 +1,11 @@
+[
+  {
+    "month": 10,
+    "year": 2023,
+    "amount": "1000.0",
+    "category_limits": {
+      "Food": "500.0",
+      "Transport": "300.0"
+    }
+  }
+]

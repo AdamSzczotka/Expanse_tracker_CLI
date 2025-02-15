@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "date": "2025-02-15T15:48:46.771862",
+    "description": "Groceries",
+    "amount": "200.0",
+    "category": "Food"
+  },
+  {
+    "id": 2,
+    "date": "2025-02-15T15:48:56.252800",
+    "description": "Bus Fare",
+    "amount": "50.0",
+    "category": "Transport"
+  }
+]
